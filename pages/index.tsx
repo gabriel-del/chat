@@ -16,7 +16,14 @@ interface PostProps {
 }
 
 const Home = ({ todos }: PostProps) => {
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
+  const handleClick = async () => {
+    await fetch("/api/todo", {
+      method: "POST",
+      body: JSON.stringify(description),
+    });
+  };
+
   return (
     <div className="h-screen bg-gray-500">
       <nav className="flex justify-center p-4 bg-gray-600">
@@ -28,13 +35,16 @@ const Home = ({ todos }: PostProps) => {
             <h1 className="text-center mb-4">Write Todo List</h1>
             <div className="flex space-x-2 p-2 bg-white rounded-md">
               <input
-              value={description}
-              onChange={(e) => setDescription(e.currentTarget.value)}
+                value={description}
+                onChange={(e) => setDescription(e.currentTarget.value)}
                 type="text"
                 placeholder="Write here..."
                 className="w-full outline-none"
               />
-              <button className="bg-green-500 px-2 py-1 rounded-md text-white font-semibold">
+              <button
+                className="bg-green-500 px-2 py-1 rounded-md text-white font-semibold"
+                onClick={() => handleClick()}
+              >
                 send
               </button>
             </div>
@@ -79,7 +89,7 @@ const Home = ({ todos }: PostProps) => {
                   </span>
                 </div>
                 <span className="absolute -left-3 -top-3 bg-green-500 flex justify-center items-center rounded-full w-8 h-8 text-gray-50 font-bold">
-                  { index + 1}
+                  {index + 1}
                 </span>
                 <p className="bg-white px-12 py-8 rounded-lg w-80">
                   {item.description}
